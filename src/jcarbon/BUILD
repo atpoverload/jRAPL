@@ -21,6 +21,12 @@ java_binary(
     runtime_deps = [":jcarbon"],
 )
 
+java_binary(
+    name = "carbon_locale_generator",
+    main_class = "jcarbon.emissions.CarbonLocaleGenerator",
+    runtime_deps = [":jcarbon"],
+)
+
 alias(
     name = "emissions_data",
     actual = "//src/main/resources/emissions/WorldIntensity.csv",
