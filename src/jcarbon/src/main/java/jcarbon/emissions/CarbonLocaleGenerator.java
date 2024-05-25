@@ -84,17 +84,14 @@ public final class CarbonLocaleGenerator{
                 pw.write(String.format("%s\n", e));
             }
             pw.close();
-            System.out.println("Written successfully");
+            logger.info("written CarbonLocale enum successfully");
         }
         catch (IOException e) {
-            throw new IllegalStateException("Unable to write to default intensity file.", e);
+            throw new IllegalStateException("Unable to generate a default CarbonLocale enum.", e);
         }
     }
 
     public static void main(String[] args){
-        for (String e : CARBON_LOCALE_CLASS){
-            System.out.println(e);
-        }
         toClass();
     }
 }
