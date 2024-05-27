@@ -10,3 +10,21 @@ java_library(
     ],
     resources = ["//src/jcarbon/src/main/resources/emissions:emissions_data"],
 )
+
+java_binary(
+    name = "carbon_locale_generator",
+    main_class = "jcarbon.emissions.CarbonLocaleGenerator",
+    runtime_deps = [":emissions"],
+)
+
+java_binary(
+    name = "generated_locale",
+    main_class = "jcarbon.emissions.CarbonLocale",
+    runtime_deps = [":emissions"],
+)
+
+java_binary(
+    name = "test_loc",
+    main_class = "jcarbon.emissions.Testing",
+    runtime_deps = [":emissions"],
+)
