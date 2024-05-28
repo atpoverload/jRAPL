@@ -26,6 +26,8 @@ public final class CarbonLocaleGenerator{
     private static final String ATTRIBUTES = "private final String locale; private final double intensity;";
     private static final String FROM_LOCALE_HELPER = "public static CarbonLocale fromLocale(Locale localeCountry) { return CarbonLocale.valueOf(localeCountry.getISO3Country()); } ";
     private static final String GET_DEFAULT_HELPER = "public static CarbonLocale getDefault() { return CarbonLocale.fromLocale(Locale.getDefault()); }";
+    private static final String GET_NAME_HELPER = " public String getCountryName(){ return new String(locale); }";
+    private static final String GET_INTENSITY_HELPER = "public double getLocaleIntensity(){ return Double.valueOf(intensity); }";
 
     private static ArrayList<String> getEnumsList(){
         String filePath = System.getProperty("jcarbon.emissions.intensity");
@@ -61,6 +63,8 @@ public final class CarbonLocaleGenerator{
         builder.addAll(ENUMS_LIST);
         builder.add(ATTRIBUTES);
         builder.add(CONSTRUCTOR_BODY);
+        builder.add(GET_NAME_HELPER);
+        builder.add(GET_INTENSITY_HELPER);
         builder.add(FROM_LOCALE_HELPER);
         builder.add(GET_DEFAULT_HELPER);
         builder.add("}");

@@ -253,6 +253,12 @@ public enum CarbonLocale {
     this.locale = locale;
     this.intensity = intensity;
   }
+  public String getCountryName() {
+    return new String(locale);
+  }
+  public double getLocaleIntensity() {
+    return Double.valueOf(intensity);
+  }
   public static CarbonLocale fromLocale(Locale localeCountry) {
     return CarbonLocale.valueOf(localeCountry.getISO3Country());
   }
