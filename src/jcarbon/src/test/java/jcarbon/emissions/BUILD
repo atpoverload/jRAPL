@@ -1,6 +1,6 @@
 java_test(
-    name = "LocaleOperationsTest",
-    srcs = ["LocaleOperationsTest.java"],
+    name = "CarbonLocaleTest",
+    srcs = ["CarbonLocaleTest.java"],
     deps = [
         "//src/jcarbon/src/main/java/jcarbon/emissions"
         ],

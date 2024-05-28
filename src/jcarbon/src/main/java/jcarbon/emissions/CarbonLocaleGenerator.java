@@ -20,7 +20,7 @@ public final class CarbonLocaleGenerator{
     private static final String DEFAULT_INTENSITY_FILE = "/emissions/WorldIntensity.csv";
     private static final Logger logger = getLogger();
     private static final ArrayList<String> ENUMS_LIST = getEnumsList();
-    private static final ArrayList<String> CARBON_LOCALE_CLASS = buildClass();
+    private static final ArrayList<String> CARBON_LOCALE_CLASS = generateEnumStructure();
     private static final String CLASS_HEADER = "package jcarbon.emissions; import java.util.Locale; public enum CarbonLocale {";
     private static final String CONSTRUCTOR_BODY = "CarbonLocale(String locale, double intensity){ this.locale = locale; this.intensity = intensity; }";
     private static final String ATTRIBUTES = "private final String locale; private final double intensity;";
@@ -42,7 +42,7 @@ public final class CarbonLocaleGenerator{
         }
 
         try {
-            return toCsv(Files.readAllLines(path));
+            return parseCsv(Files.readAllLines(path));
         } catch (IOException e) {
             throw new IllegalStateException(String.format("Unable to read %s", filePath), e);
         }
@@ -51,13 +51,13 @@ public final class CarbonLocaleGenerator{
     private static ArrayList<String> getDefaultEnums(){
         logger.info("generating carbon intensity enums from defaults");
         try {
-            return toCsv(NativeUtils.readFileContentsFromJar(DEFAULT_INTENSITY_FILE));
+            return parseCsv(NativeUtils.readFileContentsFromJar(DEFAULT_INTENSITY_FILE));
         } catch (IOException e) {
             throw new IllegalStateException("Unable to read the default intensity file.", e);
         }
     }
 
-    private static ArrayList<String> buildClass(){
+    private static ArrayList<String> generateEnumStructure(){
         ArrayList<String> builder = new ArrayList();
         builder.add(CLASS_HEADER);
         builder.addAll(ENUMS_LIST);
@@ -71,7 +71,7 @@ public final class CarbonLocaleGenerator{
         return builder;
     }
     /** Parses a csv file with a header like "locale,name,intensity". */
-    private static ArrayList<String> toCsv(List<String> lines) {
+    private static ArrayList<String> parseCsv(List<String> lines) {
         ArrayList<String> enums = new ArrayList<>();
         lines.stream().skip(1).map(s -> s.split(",")).forEach(token -> {
                 enums.add(String.format("%s(\"%s\", %f),",token[0], token[1], Double.parseDouble(token[2])));
@@ -81,7 +81,7 @@ public final class CarbonLocaleGenerator{
         return enums;
     }
     
-    private static void toClass(){
+    private static void generateCarbonLocales(){
         try{
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("src/jcarbon/src/main/java/jcarbon/emissions/CarbonLocale.java")));
             for(String e : CARBON_LOCALE_CLASS){
@@ -96,6 +96,6 @@ public final class CarbonLocaleGenerator{
     }
 
     public static void main(String[] args){
-        toClass();
+        generateCarbonLocales();
     }
 }
